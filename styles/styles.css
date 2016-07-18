@@ -37,14 +37,14 @@
 	width: 100%;
 	border-radius: 10px;
 	border: 1px solid #0074d9;
-	transition: all 1s ease;
+
 }
 
 .progress-bar-condition {
 	background-color: #0074d9;
 	border-radius: 10px;
 	height: 100%;
-	transition: all 1s linear;
+	transition: all 5s linear;
 }
 
 .button {

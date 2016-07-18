@@ -13,13 +13,8 @@ window.onload = (function() {
     this.startButton = document.getElementsByClassName('start')[0];
     this.yesButton = document.getElementsByClassName('yes')[0];
     this.noButton = document.getElementsByClassName('no')[0];
-    this.score = null;
+    this.score = document.getElementsByClassName('score')[0];
   }
-
-  function view() {
-    
-  }
-
 
   var quize = new Quize();
   
@@ -40,7 +35,8 @@ window.onload = (function() {
     progress ();
     var a = getRandomInt(1,20);
     var b = getRandomInt(1,20);
-    var result = a + b +  getRandomInt(0,5);
+    var result = a + b;
+
     var aValue = document.querySelector(".a-value");
     aValue.textContent = a;
 
@@ -49,7 +45,8 @@ window.onload = (function() {
 
     var answer = document.querySelector('.answer');
     answer.textContent = result;
-    Quize.prototype.progressBar = document.getElementsByClassName('progress-bar')[0];
+
+    // Quize.prototype.progressBar = document.getElementsByClassName('progress-bar')[0];
 		console.log(a,b, result);
 	}
 
@@ -61,19 +58,18 @@ window.onload = (function() {
   function progress () {
     var yes = quize.yesButton;
     yes.addEventListener("click",yesClickEvent);
-    quize.noButton.addEventListener("click",noClickEvent);
+    quize.noButton.addEventListener("click", noClickEvent);
   }
 
   function noClickEvent() {
     updateProgressBarCount();
-
     checkIsRightAnsver(false);
   }
 
   function updateScore() {
     var score = quize.score;
     score++;
-    document.getElementById('score').textContent = score;
+    // quize.score.textContent = score;
   }
 
   function yesClickEvent() {
@@ -88,8 +84,7 @@ window.onload = (function() {
 
   }
 
-  function checkIsRightAnsver(is_yes)
-  {
+  function checkIsRightAnsver(is_yes) {
     var a = document.querySelector('.a-value').textContent;
     var b = document.querySelector('.b-value').textContent;
     var an = document.querySelector('.answer').textContent;
@@ -115,35 +110,30 @@ window.onload = (function() {
 
   }
 
-
-  function getNextTask()
-  {
+  function getNextTask() {
     return getTask();
   }
 
-  function triggerEndGame()
-  {
-    quize.playGameBlock.style.display = 'none';
-    quize.endGameBlock.style.display = 'block';
+  function triggerEndGame() {
+    quize.playGameBlock.style.display = 'block';
+    quize.endGameBlock.style.display = 'none';
     quize.score = 0;
   }
    
-   function updateProgressBar() {
-
-        var interval = setInterval(function() {
-          if (count >= 127) {
-
-            clearInterval(interval);
-            return triggerEndGame();
-          }
-          count++;
-          console.log(count);
-          barProgress.style.width = count + '%';
-        }, 50);
-
+  function updateProgressBar() {
+    var count = 0;
+    var interval = setInterval(function() {
+      if (count >= 100) {
+        clearInterval(interval);
+        return triggerEndGame();
       }
+      count++;
+      console.log(count);
+      barProgress.style.width = count + '%';
+    }, 0);
+  }
   
   startGame ();
   
-
+      
  });
