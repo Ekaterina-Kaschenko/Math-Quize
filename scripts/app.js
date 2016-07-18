@@ -1,5 +1,10 @@
 window.onload = (function() {
   'use strict';
+  var bar = document.getElementsByClassName('progress-bar')[0];
+  var barProgress = document.getElementsByClassName('progress-bar-condition')[0];
+  barProgress.style.width = 0;
+  var count = 0; //progressbar count
+
   function Quize() {
     this.result = null;
     this.startGameBlock = document.getElementsByClassName('start-game')[0];
@@ -8,6 +13,7 @@ window.onload = (function() {
     this.startButton = document.getElementsByClassName('start')[0];
     this.yesButton = document.getElementsByClassName('yes')[0];
     this.noButton = document.getElementsByClassName('no')[0];
+    this.score = null;
   }
 
   function view() {
@@ -24,6 +30,7 @@ window.onload = (function() {
 
     startButton.addEventListener("click", function() {
       getTask();
+      updateProgressBar();
 	  });
   }
 
@@ -33,7 +40,7 @@ window.onload = (function() {
     progress ();
     var a = getRandomInt(1,20);
     var b = getRandomInt(1,20);
-    var result = a + b;
+    var result = a + b +  getRandomInt(0,5);
     var aValue = document.querySelector(".a-value");
     aValue.textContent = a;
 
@@ -52,25 +59,89 @@ window.onload = (function() {
   }
 
   function progress () {
-     var yes = document.getElementsByClassName('yes')[0];
-    var bar = document.getElementsByClassName('progress-bar')[0];
-    var barProgress = document.getElementsByClassName('progress-bar-condition')[0];
-    barProgress.style.width = 0;
-
-    yes.addEventListener("click", function() {
-      var count = 0;
-      var interval = setInterval(function() {
-        if (count >= 100) {
-          clearInterval(interval);
-          return;
-        }
-        count++;
-        barProgress.style.width = count + '%';
-      }, 50);
-
-    });
+    var yes = quize.yesButton;
+    yes.addEventListener("click",yesClickEvent);
+    quize.noButton.addEventListener("click",noClickEvent);
   }
 
+  function noClickEvent() {
+    updateProgressBarCount();
+
+    checkIsRightAnsver(false);
+  }
+
+  function updateScore() {
+    var score = quize.score;
+    score++;
+    document.getElementById('score').textContent = score;
+  }
+
+  function yesClickEvent() {
+    updateProgressBarCount();
+    checkIsRightAnsver(true);
+  }
+
+  function updateProgressBarCount() {
+    if (count > 0) {
+        count =  count - (count / 2);
+    }
+
+  }
+
+  function checkIsRightAnsver(is_yes)
+  {
+    var a = document.querySelector('.a-value').textContent;
+    var b = document.querySelector('.b-value').textContent;
+    var an = document.querySelector('.answer').textContent;
+
+
+    a = parseInt(a); 
+    b = parseInt(b);
+    an = parseInt(an);
+
+    if (is_yes) {
+      if (a + b ==  an) {
+        updateScore();
+        return getNextTask();
+      }
+      return triggerEndGame();
+    } else {
+      if (a + b !=  an) {
+        updateScore();
+        return getNextTask();
+      }
+      return triggerEndGame();
+    }
+
+  }
+
+
+  function getNextTask()
+  {
+    return getTask();
+  }
+
+  function triggerEndGame()
+  {
+    quize.playGameBlock.style.display = 'none';
+    quize.endGameBlock.style.display = 'block';
+    quize.score = 0;
+  }
+   
+   function updateProgressBar() {
+
+        var interval = setInterval(function() {
+          if (count >= 127) {
+
+            clearInterval(interval);
+            return triggerEndGame();
+          }
+          count++;
+          console.log(count);
+          barProgress.style.width = count + '%';
+        }, 50);
+
+      }
   
   startGame ();
   
