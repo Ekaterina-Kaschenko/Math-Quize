@@ -42,7 +42,7 @@ window.onload = (function () {
       }
       count++;
       barProgress.style.width = count + '%';
-    }, 50);
+    }, 120);
   }
 
   function getTask() {
@@ -73,9 +73,22 @@ window.onload = (function () {
     checkCorrectAnswer(quize.aValue, quize.bValue, randomAnswer(quize.result, quize.mistakenResult));
   });
 
+  quize.noButton.addEventListener('click', function () {
+    getTask();
+    checkCorrectAnswerNoButton(quize.aValue, quize.bValue, randomAnswer(quize.result, quize.mistakenResult));
+  });
+
   function checkCorrectAnswer(a, b, answer) {
     if (a + b == answer) {
       console.log(a + ' + ' + b + ' = ' + answer + ' - success');
+    } else {
+      console.log(a + ' + ' + b + ' = ' + answer + ' - error');
+    }
+  }
+
+  function checkCorrectAnswerNoButton(a, b, answer) {
+    if (a + b !== answer) {
+      console.log(a + ' + ' + b + ' != ' + answer + ' - success');
     } else {
       console.log(a + ' + ' + b + ' = ' + answer + ' - error');
     }
