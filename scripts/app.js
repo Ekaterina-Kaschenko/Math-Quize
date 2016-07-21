@@ -45,7 +45,7 @@ window.onload = (function () {
       }
       count++;
       barProgress.style.width = count + '%';
-    }, 200);
+    }, 100);
   }
 
   function getTask() {
