@@ -19,15 +19,14 @@ window.onload = (function () {
     this.scoreElem = document.getElementsByClassName('score')[0];
     this.bar = document.getElementsByClassName('progress-bar')[0];
     this.barProgress = document.getElementsByClassName('progress-bar-condition')[0];
+    this.restartButton = document.getElementsByClassName('restart')[0];
   }
 
   var quize = new Quize();
 
   function startGame() {
     showBlock(quize.playGameBlock);
-
     quize.score = 0;
-
 
     getTask();
 
@@ -84,6 +83,11 @@ window.onload = (function () {
     getTask();
   });
 
+
+  quize.restartButton.addEventListener('click', function () {
+    startGame();
+  });
+
   function checkCorrectAnswer(a, b, answer, button) {
     if (((a + b == answer) && (button === true)) || ((a + b != answer) && (button === false))) {
       console.log(a + ' + ' + b + ' = ' + answer + ' - success, press ' + button + ' correct answer = ' + quize.result);
@@ -97,8 +101,6 @@ window.onload = (function () {
     }
   }
 
-
-
   function randomAnswer(result, mistakenResult) {
     var index = Math.random().toFixed(1);
     if (index < 0.5) {
@@ -107,6 +109,7 @@ window.onload = (function () {
       return mistakenResult;
     }
   }
+ 
 
   function getRandomInt(min, max) {
     return Math.round(Math.random() * (max - min)) + min;
