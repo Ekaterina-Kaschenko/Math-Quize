@@ -9,13 +9,14 @@ window.onload = (function () {
     this.result = null;
     this.mistakenResult = null;
     this.answer = null;
+    this.score = null;
     this.startGameBlock = document.getElementsByClassName('start-game')[0];
     this.playGameBlock = document.getElementsByClassName('play-game')[0];
     this.endGameBlock = document.getElementsByClassName('end-game')[0];
     this.startButton = document.getElementsByClassName('start')[0];
     this.yesButton = document.getElementsByClassName('yes')[0];
     this.noButton = document.getElementsByClassName('no')[0];
-    this.score = document.getElementsByClassName('score')[0];
+    this.scoreElem = document.getElementsByClassName('score')[0];
     this.bar = document.getElementsByClassName('progress-bar')[0];
     this.barProgress = document.getElementsByClassName('progress-bar-condition')[0];
   }
@@ -26,6 +27,7 @@ window.onload = (function () {
     showBlock(quize.playGameBlock);
 
     quize.score = 0;
+
 
     getTask();
 
@@ -85,8 +87,13 @@ window.onload = (function () {
   function checkCorrectAnswer(a, b, answer, button) {
     if (((a + b == answer) && (button === true)) || ((a + b != answer) && (button === false))) {
       console.log(a + ' + ' + b + ' = ' + answer + ' - success, press ' + button + ' correct answer = ' + quize.result);
+      quize.score++;
+      console.log(quize.score);
+
     } else {
       console.log(a + ' + ' + b + ' = ' + answer + ' - error, press ' + button + ' correct answer = ' + quize.result);
+      endGame();
+
     }
   }
 
@@ -108,7 +115,7 @@ window.onload = (function () {
 
   function endGame() {
     showBlock(quize.endGameBlock);
-    quize.score = 0;
+    quize.scoreElem.textContent = quize.score;
   }
 
   function resetProgressBar() {
