@@ -8,6 +8,7 @@ window.onload = (function () {
     this.bValue = null;
     this.result = null;
     this.mistakenResult = null;
+    this.answer = null;
     this.startGameBlock = document.getElementsByClassName('start-game')[0];
     this.playGameBlock = document.getElementsByClassName('play-game')[0];
     this.endGameBlock = document.getElementsByClassName('end-game')[0];
@@ -42,7 +43,7 @@ window.onload = (function () {
       }
       count++;
       barProgress.style.width = count + '%';
-    }, 120);
+    }, 200);
   }
 
   function getTask() {
@@ -61,38 +62,35 @@ window.onload = (function () {
     bValue.textContent = b;
 
     var answer = document.querySelector('.answer');
-    answer.textContent = randomAnswer(quize.result, quize.mistakenResult);
+    quize.answer = randomAnswer(quize.result, quize.mistakenResult);
+    answer.textContent = quize.answer;
+    
   }
 
   quize.startButton.addEventListener("click", function () {
     startGame();
   });
 
+
   quize.yesButton.addEventListener('click', function () {
+    checkCorrectAnswer(quize.aValue, quize.bValue, quize.answer, true);
     getTask();
-    checkCorrectAnswer(quize.aValue, quize.bValue, randomAnswer(quize.result, quize.mistakenResult));
   });
 
   quize.noButton.addEventListener('click', function () {
+    checkCorrectAnswer(quize.aValue, quize.bValue, quize.answer, false);
     getTask();
-    checkCorrectAnswerNoButton(quize.aValue, quize.bValue, randomAnswer(quize.result, quize.mistakenResult));
   });
 
-  function checkCorrectAnswer(a, b, answer) {
-    if (a + b == answer) {
-      console.log(a + ' + ' + b + ' = ' + answer + ' - success');
+  function checkCorrectAnswer(a, b, answer, button) {
+    if (((a + b == answer) && (button === true)) || ((a + b != answer) && (button === false))) {
+      console.log(a + ' + ' + b + ' = ' + answer + ' - success, press ' + button + ' correct answer = ' + quize.result);
     } else {
-      console.log(a + ' + ' + b + ' = ' + answer + ' - error');
+      console.log(a + ' + ' + b + ' = ' + answer + ' - error, press ' + button + ' correct answer = ' + quize.result);
     }
   }
 
-  function checkCorrectAnswerNoButton(a, b, answer) {
-    if (a + b !== answer) {
-      console.log(a + ' + ' + b + ' != ' + answer + ' - success');
-    } else {
-      console.log(a + ' + ' + b + ' = ' + answer + ' - error');
-    }
-  }
+
 
   function randomAnswer(result, mistakenResult) {
     var index = Math.random().toFixed(1);
