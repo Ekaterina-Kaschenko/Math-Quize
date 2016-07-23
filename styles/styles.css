@@ -17,13 +17,13 @@
 }
 
 .title {
-	font-size: 2.5em;
+	font-size: 4em;
 	font-weight: 700;
 }
 
 .description,
 .play-game {
-	font-size: 1.8em;
+	font-size: 2.5em;
 	margin: 1em 0;
 	line-height: 1.5;
 }
@@ -48,12 +48,42 @@
 }
 
 .button {
+	display: inline-block;
+	margin: 0 auto;
 	padding: .3em 1em;
 	border-radius: 5px;
 	background-color: #39cccc;
 	font-weight: 700;
+	width: 100px;
+	height: 100px;
+	background-size: contain;
+	border-radius: 50%;
+	cursor:pointer;
+	transition: all .3s linear;
+}
+
+.button:focus {
+	outline: none;
 }
 
 .restart {
 	margin-top: 30px;
+}
+
+.start {
+	background-image: url(../images/start.png);
+}
+
+.yes {
+	background-image: url(../images/yes.png);
+}
+
+.no {
+	background-image: url(../images/no.png);
+}
+
+.button:hover {
+	transform: translate(0, 0);
+	box-shadow: 0px 0px 30px rgba( 0, 0, 0, .5);
+	transition: all .3s linear;
 }
