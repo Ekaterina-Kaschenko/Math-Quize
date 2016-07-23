@@ -28,12 +28,13 @@ window.onload = (function () {
   function startGame() {
     showBlock(quize.playGameBlock);
     quize.score = 0;
-
     getTask();
+    
+    if (interval !== null) {
+      clearInterval(interval);
+    }
 
-    if (interval !== null) clearInterval(interval);
     count = 0;
-
     var barProgress = quize.barProgress;
     barProgress.style.width = 0;
 
@@ -67,23 +68,18 @@ window.onload = (function () {
 
     var aValue = document.querySelector(".a-value");
     aValue.textContent = a;
-
     var bValue = document.querySelector('.b-value');
     bValue.textContent = b;
-
     var operationValue = document.querySelector('.operation');
     operationValue.textContent = quize.operation;
-
     var answer = document.querySelector('.answer');
     quize.answer = randomAnswer(quize.result, quize.mistakenResult);
     answer.textContent = quize.answer;
-    
   }
 
   quize.startButton.addEventListener("click", function () {
     startGame();
   });
-
 
   quize.yesButton.addEventListener('click', function () {
     checkCorrectAnswer(quize.aValue, quize.bValue, quize.answer, true);
@@ -94,7 +90,6 @@ window.onload = (function () {
     checkCorrectAnswer(quize.aValue, quize.bValue, quize.answer, false);
     getTask();
   });
-
 
   quize.restartButton.addEventListener('click', function () {
     startGame();
@@ -110,20 +105,7 @@ window.onload = (function () {
     } else {
       console.log(a + ' ' + quize.operation + ' ' + b + ' = ' + answer + ' - error, press ' + button + ' correct answer = ' + quize.result);
       endGame();
-
     }
-
-
-  //   if (((a + b == answer) && (button === true)) || ((a + b != answer) && (button === false))) {
-  //     console.log(a + ' + ' + b + ' = ' + answer + ' - success, press ' + button + ' correct answer = ' + quize.result);
-  //     quize.score++;
-  //     console.log(quize.score);
-
-  //   } else {
-  //     console.log(a + ' + ' + b + ' = ' + answer + ' - error, press ' + button + ' correct answer = ' + quize.result);
-  //     endGame();
-
-  //   }
  }
 
   function randomAnswer(result, mistakenResult) {
@@ -154,7 +136,6 @@ window.onload = (function () {
   function getRandomInt(min, max) {
     return Math.round(Math.random() * (max - min)) + min;
   }
-
 
   function endGame() {
     showBlock(quize.endGameBlock);
