@@ -7,6 +7,7 @@ window.onload = (function () {
     this.aValue = null;
     this.bValue = null;
     this.result = null;
+    this.operation = null;
     this.mistakenResult = null;
     this.answer = null;
     this.score = null;
@@ -47,13 +48,21 @@ window.onload = (function () {
     }, 100);
   }
 
+  function getOperation () {
+    var operations = ['+', '-', '/', '*' ];
+    var randomOperation = operations[Math.floor(Math.random() * operations.length)];
+    return randomOperation;
+  }
+
   function getTask() {
     resetProgressBar();
     var a = getRandomInt(1, 20);
     quize.aValue = a;
     var b = getRandomInt(1, 20);
     quize.bValue = b;
-    quize.result = a + b;
+    quize.operation = getOperation();
+    quize.result = getExample (a,b,quize.operation);
+    console.log(a, quize.operation, b, ' = ', quize.result);
     quize.mistakenResult = getRandomInt(1, 20);
 
     var aValue = document.querySelector(".a-value");
@@ -61,6 +70,9 @@ window.onload = (function () {
 
     var bValue = document.querySelector('.b-value');
     bValue.textContent = b;
+
+    var operationValue = document.querySelector('.operation');
+    operationValue.textContent = quize.operation;
 
     var answer = document.querySelector('.answer');
     quize.answer = randomAnswer(quize.result, quize.mistakenResult);
@@ -89,17 +101,30 @@ window.onload = (function () {
   });
 
   function checkCorrectAnswer(a, b, answer, button) {
-    if (((a + b == answer) && (button === true)) || ((a + b != answer) && (button === false))) {
-      console.log(a + ' + ' + b + ' = ' + answer + ' - success, press ' + button + ' correct answer = ' + quize.result);
+    var codition = eval(a + quize.operation + b);
+    if (((codition == answer) && (button === true)) || ((codition != answer) && (button === false))) {
+      console.log(a + ' ' + quize.operation + ' ' + b + ' = ' + answer + ' - success, press ' + button + ' correct answer = ' + quize.result);
       quize.score++;
       console.log(quize.score);
 
     } else {
-      console.log(a + ' + ' + b + ' = ' + answer + ' - error, press ' + button + ' correct answer = ' + quize.result);
+      console.log(a + ' ' + quize.operation + ' ' + b + ' = ' + answer + ' - error, press ' + button + ' correct answer = ' + quize.result);
       endGame();
 
     }
-  }
+
+
+  //   if (((a + b == answer) && (button === true)) || ((a + b != answer) && (button === false))) {
+  //     console.log(a + ' + ' + b + ' = ' + answer + ' - success, press ' + button + ' correct answer = ' + quize.result);
+  //     quize.score++;
+  //     console.log(quize.score);
+
+  //   } else {
+  //     console.log(a + ' + ' + b + ' = ' + answer + ' - error, press ' + button + ' correct answer = ' + quize.result);
+  //     endGame();
+
+  //   }
+ }
 
   function randomAnswer(result, mistakenResult) {
     var index = Math.random().toFixed(1);
@@ -109,7 +134,22 @@ window.onload = (function () {
       return mistakenResult;
     }
   }
- 
+
+  function getExample (a,b,operation) {
+    if (operation == '+') {
+      return a + b;
+    }
+    if (operation == '-') {
+      return a - b;
+    }
+    if (operation == '*') {
+      return a * b;
+    }
+    if (operation == '/') {
+      return (a / b).toFixed(3);
+    }
+  }
+   
 
   function getRandomInt(min, max) {
     return Math.round(Math.random() * (max - min)) + min;
