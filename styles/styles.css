@@ -82,6 +82,10 @@
 	background-image: url(../images/no.png);
 }
 
+.restart {
+	background-image: url(../images/restart.png);
+}
+
 .button:hover {
 	transform: translate(0, 0);
 	box-shadow: 0px 0px 30px rgba( 0, 0, 0, .5);
